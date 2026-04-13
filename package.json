@@ -1,8 +1,8 @@
 {
   "name": "autocolor-workspace",
   "displayName": "AutoColorWorkspace",
-  "description": "Unique pastel title bar, activity bar, and status bar colors per workspace—golden-ratio palette, zero setup.",
-  "version": "0.1.0",
+  "description": "Unique pastel workspace chrome (title, activity, status) with golden-ratio hues and per-bar shades—zero setup.",
+  "version": "0.2.1",
   "license": "MIT",
   "publisher": "WyvernSystemsLLC",
   "repository": {
@@ -13,6 +13,7 @@
     "url": "https://github.com/wyvernsystems/auto-color-workspace-vscode-extension/issues"
   },
   "homepage": "https://github.com/wyvernsystems/auto-color-workspace-vscode-extension#readme",
+  "icon": "images/icon.png",
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -30,7 +31,7 @@
     "multi-root"
   ],
   "galleryBanner": {
-    "color": "#2d2d30",
+    "color": "#2a2340",
     "theme": "dark"
   },
   "activationEvents": [
@@ -39,7 +40,9 @@
     "onCommand:autocolor-workspace.disableGlobal",
     "onCommand:autocolor-workspace.enableWorkspace",
     "onCommand:autocolor-workspace.disableWorkspace",
-    "onCommand:autocolor-workspace.resetWorkspaceColors"
+    "onCommand:autocolor-workspace.setScope",
+    "onCommand:autocolor-workspace.randomize",
+    "onCommand:autocolor-workspace.resetColor"
   ],
   "contributes": {
     "commands": [
@@ -60,8 +63,16 @@
         "title": "AutoColorWorkspace: Disable for this workspace"
       },
       {
-        "command": "autocolor-workspace.resetWorkspaceColors",
-        "title": "AutoColorWorkspace: Reset colors (this workspace)"
+        "command": "autocolor-workspace.setScope",
+        "title": "AutoColorWorkspace: Set color scope"
+      },
+      {
+        "command": "autocolor-workspace.randomize",
+        "title": "AutoColorWorkspace: Randomize color"
+      },
+      {
+        "command": "autocolor-workspace.resetColor",
+        "title": "AutoColorWorkspace: Reset to default color"
       }
     ],
     "configuration": {
@@ -78,6 +89,19 @@
           "default": false,
           "scope": "window",
           "description": "When true, AutoColorWorkspace is off for this workspace only (bar colors are cleared)."
+        },
+        "autocolor-workspace.scope": {
+          "type": "string",
+          "enum": ["all", "headFooter"],
+          "default": "all",
+          "scope": "window",
+          "description": "Which chrome to color: all bars, or only title and status (head/footer)."
+        },
+        "autocolor-workspace.randomSeed": {
+          "type": "number",
+          "default": 0,
+          "scope": "window",
+          "description": "Random seed for the workspace color. Set via the Randomize command; 0 or unset = derive from folder path."
         }
       }
     }

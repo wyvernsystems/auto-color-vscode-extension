@@ -1,58 +1,69 @@
 # AutoColorWorkspace
 
-AutoColorWorkspace gives each project a distinct, readable VS Code chrome color so you can tell workspaces apart at a glance.
+![Abstract colorful editor chrome — title, side, and status bands](images/readme-hero.png)
 
-It works in both **VS Code** and **Cursor**.
+**AutoColorWorkspace** tints the VS Code window chrome so every folder you open gets a **stable, readable color** you can recognize from the corner of your eye. Same project path → same palette; different repos → different hues. Works in **VS Code** and **Cursor**.
 
-## What it does
+## At a glance
 
-- Picks a deterministic pastel color from your workspace folder path
-- Applies colors to the title bar, activity bar, and status bar
-- Writes to your workspace settings (`.vscode/settings.json`) so colors persist across restarts
-- Merges safely with your existing `workbench.colorCustomizations`
+| | |
+|--|--|
+| **Setup** | None — runs when the workspace loads |
+| **Colors** | One harmonious hue per workspace, with **lighter/darker shades** on title, activity, and status bars |
+| **Math** | Golden-angle hue and φ-weighted saturation/lightness (calm, not neon) |
+| **Persistence** | Writes only `workbench.colorCustomizations` keys into **this workspace’s** `.vscode/settings.json` |
+| **Your theme** | Merges with existing customizations; other keys are left alone |
 
-## Install
+## Why use it
 
-### Marketplace
+- **Many windows open?** Scan by bar color instead of reading the window title.
+- **Multi-root workspaces** use the **first root folder** path as the color seed (documented below).
+- **Optional scope**: color **all three** bars, or **head + footer only** (title + status) and leave the activity bar to your theme.
 
-Search for **AutoColorWorkspace** in Extensions, or use:
-[AutoColorWorkspace on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=WyvernSystemsLLC.autocolor-workspace)
+## Features
 
-### From a VSIX file
-
-1. Download or build a `.vsix` file (for example `autocolor-workspace-0.1.0.vsix`)
-2. In VS Code: **Extensions → ... → Install from VSIX...**
-
-## Requirements
-
-- VS Code **1.85.0** or newer
-
-## Usage
-
-- Runs automatically on startup and when workspace folders change
-- In multi-root workspaces, color is based on the first workspace root
-- Use Command Palette (**Cmd+Shift+P** / **Ctrl+Shift+P**) for manual controls
+- Automatic apply on startup and when workspace folders change
+- Per-workspace enable/disable and a global master switch
+- Command **Set color scope** for “all bars” vs “head and footer only”
+- Accessible foreground picked from each bar’s background luminance
 
 ## Commands
 
-| Command | Effect |
-|--------|--------|
-| **AutoColorWorkspace: Enable (all windows)** | Turns on global coloring and applies in the current workspace. |
-| **AutoColorWorkspace: Disable (all windows)** | Turns off global coloring and clears this extension's color keys here. |
-| **AutoColorWorkspace: Enable for this workspace** | Re-enables coloring in this workspace if global is on. |
-| **AutoColorWorkspace: Disable for this workspace** | Disables coloring only for this workspace. |
-| **AutoColorWorkspace: Reset colors (this workspace)** | Removes only this extension's color keys from this workspace. |
+Open the Command Palette (**Cmd+Shift+P** / **Ctrl+Shift+P**) and run:
+
+| Command | What it does |
+|--------|----------------|
+| **AutoColorWorkspace: Enable (all windows)** | Turns global coloring on and applies in the current workspace. |
+| **AutoColorWorkspace: Disable (all windows)** | Turns global coloring off and clears this extension’s keys here. |
+| **AutoColorWorkspace: Enable for this workspace** | Turns coloring back on for this workspace (if global is on). |
+| **AutoColorWorkspace: Disable for this workspace** | Off for this workspace only; clears extension keys. |
+| **AutoColorWorkspace: Set color scope** | **All** (default): title + activity + status. **Head and footer**: title + status only. |
 
 ## Settings
 
 | ID | Scope | Default | Meaning |
 |----|--------|---------|---------|
-| `autocolor-workspace.enabled` | Application | `true` | Global on/off switch. |
+| `autocolor-workspace.enabled` | Application | `true` | Global on/off. |
 | `autocolor-workspace.workspaceDisabled` | Window | `false` | Disable only this workspace. |
+| `autocolor-workspace.scope` | Window | `all` | `all` or `headFooter` (title + status only). |
 
-## Build a VSIX for manual upload
+## Requirements
 
-If you want to upload manually (instead of `vsce publish`), build a package first:
+- VS Code **1.85.0** or newer
+
+## Install
+
+### Visual Studio Marketplace
+
+Search for **AutoColorWorkspace**, or open:  
+[AutoColorWorkspace on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=WyvernSystemsLLC.autocolor-workspace)
+
+### VSIX
+
+1. Build or download `autocolor-workspace-0.2.1.vsix` (or the current version).
+2. **Extensions → … → Install from VSIX…**
+
+## Build a VSIX (manual upload)
 
 ```bash
 npm install
@@ -60,14 +71,11 @@ npm run compile
 npx vsce package
 ```
 
-This generates `autocolor-workspace-<version>.vsix` in the project root.
+This produces `autocolor-workspace-<version>.vsix` in the project root. Upload via [Publisher Management](https://marketplace.visualstudio.com/manage) if you publish outside the CLI.
 
-Then upload it in the Marketplace portal:
+## Artwork
 
-1. Open [Visual Studio Marketplace Publisher Management](https://marketplace.visualstudio.com/manage)
-2. Select your publisher
-3. Choose **New extension**
-4. Upload the generated `.vsix` file
+Store and marketplace icon live under `images/`. Original artwork for this extension is included in the repo under the same **MIT** license as the code.
 
 ## Changelog
 
@@ -77,35 +85,23 @@ See [CHANGELOG.md](CHANGELOG.md).
 
 [MIT](LICENSE)
 
-## For Developers
-
-### Local development
+## For developers
 
 ```bash
 npm install
 npm run compile
 ```
 
-Press **F5** in this repo to launch an Extension Development Host.
+Press **F5** to launch an Extension Development Host.
 
-### Repository and git notes
+- Source: [wyvernsystems/auto-color-workspace-vscode-extension](https://github.com/wyvernsystems/auto-color-workspace-vscode-extension)
 
-- Source repo: [wyvernsystems/auto-color-workspace-vscode-extension](https://github.com/wyvernsystems/auto-color-workspace-vscode-extension)
-- If this machine is configured with a dedicated Wyvern Systems SSH key, pushes from this repo can be tied to that account.
-
-### Marketplace publishing (CLI path)
-
-1. Ensure `publisher` in `package.json` matches your Marketplace publisher ID
-2. Create an Azure DevOps PAT with **Marketplace (Manage)** scope
-3. Log in and publish:
+### Publish (CLI)
 
 ```bash
 npx vsce login <publisher-id>
 npx vsce publish
+# or: npx vsce publish patch
 ```
 
-For a patch release, you can run:
-
-```bash
-npx vsce publish patch
-```
+Ensure `publisher` in `package.json` matches your Marketplace publisher ID.
