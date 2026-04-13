@@ -2,129 +2,42 @@
 
 ![Abstract colorful editor chrome — title, side, and status bands](images/readme-hero.png)
 
-**Auto Color** gives every folder you open a **stable, recognizable color**—pastel **title, activity, and status bars** plus a **subtle hue wash** across the rest of the workbench. Same project path → same palette; different repos → different hues. Works in **VS Code** and **Cursor**.
+## What it does
 
-> Previously published as **AutoColorWorkspace** (`WyvernSystemsLLC.autocolor-workspace`). This listing is a **new extension** (`WyvernSystemsLLC.auto-color`) with renamed commands and settings. Uninstall the old one and remove legacy `autocolor-workspace.*` keys from settings if you migrate.
+Auto Color picks a **color theme per workspace** and applies it to the window: pastel **title, activity, and status** bars and a matching **tint** on the editor, sidebar, tabs, terminal, and related UI. Your syntax theme still controls most text; this mainly changes **backgrounds** so each project looks distinct.
 
-## At a glance
+**What counts as a “workspace” here:** whatever VS Code or Cursor treats as the current workspace—almost always **a folder you opened** (**File → Open Folder**). That one folder (and its `.vscode/settings.json`) gets one palette. If you open **another window** with a **different** folder, that’s a **different** workspace and can have a **different** color. A **multi-root workspace** (a `.code-workspace` file with several folders) is still **one** workspace for this extension: colors and settings are stored with that workspace, and the **first** folder in the list is what the default tint is derived from (unless you use **Randomize**).
 
-| | |
-|--|--|
-| **Setup** | None — runs when the workspace loads |
-| **Chrome** | Vibrant pastels on title, activity, and status bars (optional **head + footer only** skips the activity bar) |
-| **Surfaces** | Editor, sidebar, tabs, panel, terminal, welcome/empty editor, and more—**tinted with your workspace hue** at low saturation |
-| **Depth** | Surface lightness follows **VS Code’s default dark-theme steps** (sidebar slightly above editor, tabs above that, etc.) so layout still reads clearly |
-| **Borders** | Section dividers use a **lighter line** in the same hue so splits stay visible |
-| **Text** | **Background keys only** on surfaces—syntax and list labels stay on your color theme |
-| **Math** | Golden-angle hue and φ-weighted saturation/lightness for the chrome bars (calm, not neon) |
-| **Persistence** | Writes `workbench.colorCustomizations` into **this workspace’s** `.vscode/settings.json` |
-| **Merge** | Other customization keys you set manually are preserved |
+## Why it’s useful (VS Code and Cursor)
 
-## Why use it
+**VS Code:** With several windows open, you can see **which folder** you’re in from the bar color and overall cast instead of reading the title.
 
-- **Many windows open?** Spot the right project by bar color and overall tint.
-- **Multi-root workspaces** use the **first root folder** path as the color seed unless you randomize (see below).
+**Cursor:** Same idea when you run **multiple Cursor windows** (different repos, or one “agent” window and one “editing” window). The tint makes it harder to paste, run terminal commands, or continue the wrong chat in the wrong project.
 
-## Features
+## File it writes
 
-- Apply on startup and when workspace folders change
-- Per-workspace enable/disable and a global master switch
-- **Randomize color** — new hue on demand; seed stored in workspace settings
-- **Reset to default color** — drop the seed and go back to path-derived colors
-- **Set color scope** — all three bars, or title + status only (activity bar unchanged)
-- Accessible **chrome** foregrounds from bar background luminance
+The extension saves colors through **workspace settings**. That usually creates or updates:
+
+**`.vscode/settings.json`**
+
+Inside that file it adds a **`workbench.colorCustomizations`** object with the hex colors for this workspace. Anything else in that file is left alone. If you disable Auto Color for the workspace or turn it off globally, it **removes only the keys it added** (and a few legacy keys), not your whole settings file.
 
 ## Commands
 
-Open the Command Palette (**Cmd+Shift+P** / **Ctrl+Shift+P**):
+Open the Command Palette (**Cmd+Shift+P** on Mac, **Ctrl+Shift+P** on Windows/Linux):
 
 | Command | What it does |
 |--------|----------------|
-| **Auto Color: Enable (all windows)** | Global on; applies in the current workspace. |
-| **Auto Color: Disable (all windows)** | Global off; clears this extension’s keys here. |
-| **Auto Color: Enable for this workspace** | On for this workspace (if global is on). |
-| **Auto Color: Disable for this workspace** | Off here only; clears extension keys. |
-| **Auto Color: Set color scope** | **All**: title + activity + status. **Head and footer**: title + status only. |
-| **Auto Color: Randomize color** | Picks a new seed and repaints the whole palette. |
-| **Auto Color: Reset to default color** | Clears `randomSeed`; color comes from the folder path again. |
-
-## Settings
-
-| ID | Scope | Default | Meaning |
-|----|--------|---------|---------|
-| `auto-color.enabled` | Application | `true` | Global on/off. |
-| `auto-color.workspaceDisabled` | Window | `false` | Disable only this workspace. |
-| `auto-color.scope` | Window | `all` | `all` or `headFooter` (title + status only). |
-| `auto-color.randomSeed` | Window | `0` | Non-zero = use this seed instead of the path. Set by **Randomize**; `0`/unset = path-based. |
-
-## What gets customized
-
-The extension sets **many** `workbench.colorCustomizations` keys, including:
-
-- **Chrome:** title / activity / status backgrounds and foregrounds (per scope).
-- **Editor area:** `editor.background`, gutter, line highlight, empty group / pane, welcome page, walkthrough embed.
-- **Tabs & groups:** tab strip, tab backgrounds and borders, group borders.
-- **Sidebar & lists:** sidebar, section headers, list hover/selection.
-- **Panel & terminal:** panel background and border, terminal background.
-- **Misc:** breadcrumbs, editor widgets, quick input, notifications, inputs/dropdowns, debug toolbar, etc.
-
-Disabling the extension or a workspace removes **only** the keys this extension manages (plus a few legacy keys from older versions).
-
-## Requirements
-
-- VS Code **1.85.0** or newer
+| **Auto Color: Enable (all windows)** | Turns the extension on everywhere. Applies colors in the current workspace if you have a folder open. |
+| **Auto Color: Disable (all windows)** | Turns it off for all windows and clears this extension’s color keys from the current workspace’s `workbench.colorCustomizations`. |
+| **Auto Color: Enable for this workspace** | Turns coloring back on for **this** workspace only (still requires the global switch to be on). |
+| **Auto Color: Disable for this workspace** | Stops coloring **this** workspace and clears this extension’s keys here. |
+| **Auto Color: Set color scope** | Choose **all bars** (title + activity + status) or **head and footer only** (title + status; activity bar follows your normal theme). |
+| **Auto Color: Randomize color** | Picks a new random palette and saves it in workspace settings so it stays after reload. |
+| **Auto Color: Reset to default color** | Removes the random override so the color is derived from the workspace folder path again. |
 
 ## Install
 
-### Visual Studio Marketplace
+Requires **VS Code 1.85+** (Cursor is compatible). Search the Marketplace for **Auto Color** or install from a `.vsix`.
 
-Search for **Auto Color**, or open (after publish):  
-`https://marketplace.visualstudio.com/items?itemName=WyvernSystemsLLC.auto-color`
-
-### VSIX
-
-1. Build or download `auto-color-<version>.vsix`.
-2. **Extensions → … → Install from VSIX…**
-
-## Build a VSIX (manual upload)
-
-```bash
-npm install
-npm run compile
-npx vsce package
-```
-
-This produces `auto-color-<version>.vsix` in the project root. Upload via [Publisher Management](https://marketplace.visualstudio.com/manage) if you publish outside the CLI.
-
-## Artwork
-
-Extension icon and readme hero live under `images/`. Original artwork for this extension is included in the repo under the same **MIT** license as the code.
-
-## Changelog
-
-See [CHANGELOG.md](CHANGELOG.md).
-
-## License
-
-[MIT](LICENSE)
-
-## For developers
-
-```bash
-npm install
-npm run compile
-```
-
-Press **F5** to launch an Extension Development Host.
-
-- Source: [wyvernsystems/auto-color-vscode-extension](https://github.com/wyvernsystems/auto-color-vscode-extension)
-
-### Publish (CLI)
-
-```bash
-npx vsce login <publisher-id>
-npx vsce publish
-# or: npx vsce publish patch
-```
-
-Ensure `publisher` in `package.json` matches your Marketplace publisher ID.
+Repository: [wyvernsystems/auto-color-vscode-extension](https://github.com/wyvernsystems/auto-color-vscode-extension) · [MIT](LICENSE)
