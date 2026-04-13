@@ -1,6 +1,18 @@
 # Auto Color
 
-![Abstract colorful editor chrome — title, side, and status bands](images/readme-hero.png)
+### Visual Studio Code example
+
+Teal-tinted workspace (folder **EXAMPLE**; terminal username blacked out). GitHub Copilot chat on the right.
+
+![Visual Studio Code example — Auto Color, teal tint](images/readme-hero-vscode.png)
+
+### Cursor example
+
+Purple-tinted workspace (different Auto Color seed). **New Agent** and **Cursor Tab** in the status bar.
+
+![Cursor example — Auto Color, purple tint](images/readme-hero-cursor.png)
+
+**Privacy:** Generic workspace name, no secrets in the tree, terminal prompts partially redacted.
 
 ## What it does
 
@@ -44,6 +56,6 @@ Open **Settings** (**Cmd+,** / **Ctrl+,**), search **Auto Color**, or browse **E
 
 Requires **VS Code 1.85+** (Cursor is compatible). Search the Marketplace for **Auto Color** or install from a `.vsix`.
 
-Marketplace icon: color wheel from [UXWing](https://uxwing.com/color-wheel-icon/) ([license](https://uxwing.com/license/)), resized to 128×128. Hero image in the readme is separate project artwork under `images/`.
+Marketplace icon: color wheel from [UXWing](https://uxwing.com/color-wheel-icon/) ([license](https://uxwing.com/license/)), resized to 128×128. Readme screenshots: `images/readme-hero-vscode.png` (Visual Studio Code example, teal) and `images/readme-hero-cursor.png` (Cursor example, purple).
 
 Repository: [wyvernsystems/auto-color-vscode-extension](https://github.com/wyvernsystems/auto-color-vscode-extension) · [MIT](LICENSE)
