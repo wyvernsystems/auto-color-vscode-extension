@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 
-const CONFIG_SECTION = "autocolor-workspace";
+const CONFIG_SECTION = "auto-color";
 
 type ChromeScope = "all" | "headFooter";
 
@@ -374,7 +374,7 @@ async function syncWorkspaceChrome(): Promise<void> {
 function requireFolder(): boolean {
   if (!vscode.workspace.workspaceFolders?.length) {
     void vscode.window.showInformationMessage(
-      "AutoColorWorkspace: open a folder in this window first.",
+      "Auto Color: open a folder in this window first.",
     );
     return false;
   }
@@ -395,7 +395,7 @@ export function activate(context: vscode.ExtensionContext): void {
       void syncWorkspaceChrome();
     }),
     vscode.commands.registerCommand(
-      "autocolor-workspace.enableGlobal",
+      "auto-color.enableGlobal",
       async () => {
         await extensionSettings().update(
           "enabled",
@@ -408,7 +408,7 @@ export function activate(context: vscode.ExtensionContext): void {
       },
     ),
     vscode.commands.registerCommand(
-      "autocolor-workspace.disableGlobal",
+      "auto-color.disableGlobal",
       async () => {
         await extensionSettings().update(
           "enabled",
@@ -421,7 +421,7 @@ export function activate(context: vscode.ExtensionContext): void {
       },
     ),
     vscode.commands.registerCommand(
-      "autocolor-workspace.enableWorkspace",
+      "auto-color.enableWorkspace",
       async () => {
         if (!requireFolder()) {
           return;
@@ -437,7 +437,7 @@ export function activate(context: vscode.ExtensionContext): void {
       },
     ),
     vscode.commands.registerCommand(
-      "autocolor-workspace.disableWorkspace",
+      "auto-color.disableWorkspace",
       async () => {
         if (!requireFolder()) {
           return;
@@ -451,7 +451,7 @@ export function activate(context: vscode.ExtensionContext): void {
       },
     ),
     vscode.commands.registerCommand(
-      "autocolor-workspace.randomize",
+      "auto-color.randomize",
       async () => {
         if (!requireFolder()) {
           return;
@@ -468,7 +468,7 @@ export function activate(context: vscode.ExtensionContext): void {
       },
     ),
     vscode.commands.registerCommand(
-      "autocolor-workspace.resetColor",
+      "auto-color.resetColor",
       async () => {
         if (!requireFolder()) {
           return;
@@ -484,7 +484,7 @@ export function activate(context: vscode.ExtensionContext): void {
       },
     ),
     vscode.commands.registerCommand(
-      "autocolor-workspace.setScope",
+      "auto-color.setScope",
       async () => {
         if (!requireFolder()) {
           return;
@@ -508,7 +508,7 @@ export function activate(context: vscode.ExtensionContext): void {
             },
           ],
           {
-            title: "AutoColorWorkspace: Color scope",
+            title: "Auto Color: Color scope",
             placeHolder: "Choose which bars get the workspace color",
           },
         );

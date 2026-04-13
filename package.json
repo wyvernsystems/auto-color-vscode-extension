@@ -1,18 +1,18 @@
 {
-  "name": "autocolor-workspace",
-  "displayName": "AutoColorWorkspace",
-  "description": "Unique pastel workspace chrome (title, activity, status) with golden-ratio hues and per-bar shades—zero setup.",
-  "version": "0.2.1",
+  "name": "auto-color",
+  "displayName": "Auto Color",
+  "description": "Workspace-tinted UI: pastel title, activity, and status bars plus a subtle hue across the workbench—golden-ratio palettes, native-style depth, zero setup.",
+  "version": "1.0.0",
   "license": "MIT",
   "publisher": "WyvernSystemsLLC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/wyvernsystems/auto-color-workspace-vscode-extension.git"
+    "url": "https://github.com/wyvernsystems/auto-color-vscode-extension.git"
   },
   "bugs": {
-    "url": "https://github.com/wyvernsystems/auto-color-workspace-vscode-extension/issues"
+    "url": "https://github.com/wyvernsystems/auto-color-vscode-extension/issues"
   },
-  "homepage": "https://github.com/wyvernsystems/auto-color-workspace-vscode-extension#readme",
+  "homepage": "https://github.com/wyvernsystems/auto-color-vscode-extension#readme",
   "icon": "images/icon.png",
   "engines": {
     "vscode": "^1.85.0"
@@ -28,7 +28,8 @@
     "activity bar",
     "status bar",
     "pastel",
-    "multi-root"
+    "multi-root",
+    "AutoColorWorkspace"
   ],
   "galleryBanner": {
     "color": "#2a2340",
@@ -36,72 +37,72 @@
   },
   "activationEvents": [
     "onStartupFinished",
-    "onCommand:autocolor-workspace.enableGlobal",
-    "onCommand:autocolor-workspace.disableGlobal",
-    "onCommand:autocolor-workspace.enableWorkspace",
-    "onCommand:autocolor-workspace.disableWorkspace",
-    "onCommand:autocolor-workspace.setScope",
-    "onCommand:autocolor-workspace.randomize",
-    "onCommand:autocolor-workspace.resetColor"
+    "onCommand:auto-color.enableGlobal",
+    "onCommand:auto-color.disableGlobal",
+    "onCommand:auto-color.enableWorkspace",
+    "onCommand:auto-color.disableWorkspace",
+    "onCommand:auto-color.setScope",
+    "onCommand:auto-color.randomize",
+    "onCommand:auto-color.resetColor"
   ],
   "contributes": {
     "commands": [
       {
-        "command": "autocolor-workspace.enableGlobal",
-        "title": "AutoColorWorkspace: Enable (all windows)"
+        "command": "auto-color.enableGlobal",
+        "title": "Auto Color: Enable (all windows)"
       },
       {
-        "command": "autocolor-workspace.disableGlobal",
-        "title": "AutoColorWorkspace: Disable (all windows)"
+        "command": "auto-color.disableGlobal",
+        "title": "Auto Color: Disable (all windows)"
       },
       {
-        "command": "autocolor-workspace.enableWorkspace",
-        "title": "AutoColorWorkspace: Enable for this workspace"
+        "command": "auto-color.enableWorkspace",
+        "title": "Auto Color: Enable for this workspace"
       },
       {
-        "command": "autocolor-workspace.disableWorkspace",
-        "title": "AutoColorWorkspace: Disable for this workspace"
+        "command": "auto-color.disableWorkspace",
+        "title": "Auto Color: Disable for this workspace"
       },
       {
-        "command": "autocolor-workspace.setScope",
-        "title": "AutoColorWorkspace: Set color scope"
+        "command": "auto-color.setScope",
+        "title": "Auto Color: Set color scope"
       },
       {
-        "command": "autocolor-workspace.randomize",
-        "title": "AutoColorWorkspace: Randomize color"
+        "command": "auto-color.randomize",
+        "title": "Auto Color: Randomize color"
       },
       {
-        "command": "autocolor-workspace.resetColor",
-        "title": "AutoColorWorkspace: Reset to default color"
+        "command": "auto-color.resetColor",
+        "title": "Auto Color: Reset to default color"
       }
     ],
     "configuration": {
-      "title": "AutoColorWorkspace",
+      "title": "Auto Color",
       "properties": {
-        "autocolor-workspace.enabled": {
+        "auto-color.enabled": {
           "type": "boolean",
           "default": true,
           "scope": "application",
-          "description": "Master switch. When false, AutoColorWorkspace does not apply colors in any window."
+          "description": "Master switch. When false, Auto Color does not apply colors in any window."
         },
-        "autocolor-workspace.workspaceDisabled": {
+        "auto-color.workspaceDisabled": {
           "type": "boolean",
           "default": false,
           "scope": "window",
-          "description": "When true, AutoColorWorkspace is off for this workspace only (bar colors are cleared)."
+          "description": "When true, Auto Color is off for this workspace only (extension color keys are cleared)."
         },
-        "autocolor-workspace.scope": {
+        "auto-color.scope": {
           "type": "string",
           "enum": ["all", "headFooter"],
           "default": "all",
           "scope": "window",
           "description": "Which chrome to color: all bars, or only title and status (head/footer)."
         },
-        "autocolor-workspace.randomSeed": {
+        "auto-color.randomSeed": {
           "type": "number",
           "default": 0,
           "scope": "window",
-          "description": "Random seed for the workspace color. Set via the Randomize command; 0 or unset = derive from folder path."
+          "description": "Random seed for the workspace color. Set via Randomize; 0 or unset = derive from folder path."
         }
       }
     }

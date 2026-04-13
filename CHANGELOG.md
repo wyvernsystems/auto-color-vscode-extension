@@ -1,6 +1,23 @@
 # Changelog
 
-All notable changes to **AutoColorWorkspace** will be documented in this file.
+All notable changes to **Auto Color** will be documented in this file.
+
+## [1.0.0] - 2026-04-13
+
+### Added
+
+- **New Marketplace extension** `WyvernSystemsLLC.auto-color` (package name `auto-color`, display name **Auto Color**).
+- Commands and settings use the `auto-color.*` prefix (replaces `autocolor-workspace.*`).
+
+### Notes
+
+- Successor to **AutoColorWorkspace** (`WyvernSystemsLLC.autocolor-workspace`). Migrate by installing **Auto Color**, uninstalling the old extension, and updating User/Workspace JSON: `autocolor-workspace.*` → `auto-color.*` if you had overrides.
+
+[1.0.0]: https://github.com/wyvernsystems/auto-color-vscode-extension/releases/tag/v1.0.0
+
+---
+
+Earlier releases shipped as **AutoColorWorkspace**; history below retains original setting/command names for reference.
 
 ## [0.2.1] - 2026-04-13
 
@@ -13,7 +30,7 @@ All notable changes to **AutoColorWorkspace** will be documented in this file.
 - **README** expanded for Marketplace / repo details (features, tables, artwork note)
 - **galleryBanner** tint updated to complement the new artwork
 
-[0.2.1]: https://github.com/wyvernsystems/auto-color-workspace-vscode-extension/releases/tag/v0.2.1
+[0.2.1]: https://github.com/wyvernsystems/auto-color-vscode-extension/releases/tag/v0.2.1
 
 ## [0.2.0] - 2026-04-13
 
@@ -27,7 +44,7 @@ All notable changes to **AutoColorWorkspace** will be documented in this file.
 
 - **Reset colors (this workspace)** command (use **Disable for this workspace** or clear keys in settings if needed)
 
-[0.2.0]: https://github.com/wyvernsystems/auto-color-workspace-vscode-extension/releases/tag/v0.2.0
+[0.2.0]: https://github.com/wyvernsystems/auto-color-vscode-extension/releases/tag/v0.2.0
 
 ## [0.1.0] - 2026-04-11
 
@@ -39,4 +56,4 @@ All notable changes to **AutoColorWorkspace** will be documented in this file.
 - Commands: global enable/disable, per-workspace enable/disable, reset colors for this workspace
 - Settings: `autocolor-workspace.enabled`, `autocolor-workspace.workspaceDisabled`
 
-[0.1.0]: https://github.com/wyvernsystems/auto-color-workspace-vscode-extension/releases/tag/v0.1.0
+[0.1.0]: https://github.com/wyvernsystems/auto-color-vscode-extension/releases/tag/v0.1.0
