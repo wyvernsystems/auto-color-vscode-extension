@@ -2,6 +2,14 @@
 
 All notable changes to **Auto Color** will be documented in this file.
 
+## [1.0.3] - 2026-04-13
+
+### Changed
+
+- README: **Examples** section at the bottom; removed privacy note under screenshots.
+
+[1.0.3]: https://github.com/wyvernsystems/auto-color-vscode-extension/releases/tag/v1.0.3
+
 ## [1.0.2] - 2026-04-13
 
 ### Changed
