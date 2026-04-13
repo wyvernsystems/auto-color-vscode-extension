@@ -2,7 +2,7 @@
   "name": "auto-color",
   "displayName": "Auto Color",
   "description": "Workspace-tinted UI: pastel title, activity, and status bars plus a subtle hue across the workbench—golden-ratio palettes, native-style depth, zero setup.",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "license": "MIT",
   "publisher": "WyvernSystemsLLC",
   "repository": {
@@ -111,6 +111,8 @@
         "auto-color.randomSeed": {
           "type": "number",
           "default": 0,
+          "minimum": 0,
+          "maximum": 4294967295,
           "scope": "window",
           "order": 4,
           "markdownDescription": "Non-zero locks the palette to a random choice (set by **Randomize color**). Use `0` or clear for folder-path colors (**Reset to default color**).",

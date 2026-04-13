@@ -1,6 +1,10 @@
+import { randomBytes } from "node:crypto";
 import * as vscode from "vscode";
 
 const CONFIG_SECTION = "auto-color";
+
+/** Avoid hashing megabyte paths (pathological workspace roots). */
+const MAX_FOLDER_PATH_LEN = 4096;
 
 type ChromeScope = "all" | "headFooter";
 
@@ -102,8 +106,12 @@ function getChromeScope(): ChromeScope {
 }
 
 function getRandomSeed(): number | undefined {
-  const v = extensionSettings().get<number>("randomSeed");
-  return typeof v === "number" && v > 0 ? v : undefined;
+  const raw = extensionSettings().get<number>("randomSeed");
+  if (typeof raw !== "number" || !Number.isFinite(raw)) {
+    return undefined;
+  }
+  const u = raw >>> 0;
+  return u === 0 ? undefined : u;
 }
 
 function shouldApplyChrome(): boolean {
@@ -112,7 +120,10 @@ function shouldApplyChrome(): boolean {
 
 /** Stable hash from workspace folder identity (path tail + full path salt). */
 function hashWorkspaceIdentity(folderPath: string): number {
-  const normalized = folderPath.replace(/\\/g, "/").toLowerCase();
+  let normalized = folderPath.replace(/\\/g, "/").toLowerCase();
+  if (normalized.length > MAX_FOLDER_PATH_LEN) {
+    normalized = normalized.slice(0, MAX_FOLDER_PATH_LEN);
+  }
   let h = 2166136261;
   for (let i = 0; i < normalized.length; i++) {
     h ^= normalized.charCodeAt(i);
@@ -462,7 +473,10 @@ export function activate(context: vscode.ExtensionContext): void {
         if (!requireFolder()) {
           return;
         }
-        const seed = (Math.random() * 0xffffffff) >>> 0;
+        let seed = 0;
+        do {
+          seed = randomBytes(4).readUInt32BE(0);
+        } while (seed === 0);
         await extensionSettings().update(
           "randomSeed",
           seed,

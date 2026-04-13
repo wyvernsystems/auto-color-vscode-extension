@@ -4,3 +4,10 @@ src/**
 .gitignore
 **/tsconfig.json
 **/*.map
+.env
+.env.*
+**/.env
+**/.env.*
+**/*.pem
+**/*.key
+.github/**

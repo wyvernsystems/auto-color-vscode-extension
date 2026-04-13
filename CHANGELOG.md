@@ -2,6 +2,27 @@
 
 All notable changes to **Auto Color** will be documented in this file.
 
+## [1.0.2] - 2026-04-13
+
+### Changed
+
+- **Workspace Trust:** Removed `untrustedWorkspaces` manifest restrictions and all trust checks so Auto Color works immediately without requiring the user to trust the workspace (easier default experience). Other hardening (e.g. `crypto` random seed, path length cap, seed validation, `.vscodeignore` patterns) remains.
+
+[1.0.2]: https://github.com/wyvernsystems/auto-color-vscode-extension/releases/tag/v1.0.2
+
+## [1.0.1] - 2026-04-13
+
+### Security
+
+- **Workspace Trust:** `capabilities.untrustedWorkspaces` set to **limited**; workspace-level `auto-color.workspaceDisabled`, `scope`, and `randomSeed` are restricted until the workspace is trusted. No writes to `workbench.colorCustomizations` while untrusted; reapplies after trust is granted.
+- **Commands** that mutate workspace settings require a trusted workspace (with user-visible warning otherwise). **Disable (all windows)** warns if workspace keys could not be cleared while untrusted.
+- **Random seed:** `randomSeed` validated as finite; **Randomize** uses `crypto.randomBytes` instead of `Math.random`.
+- **Path hash:** folder path length capped before hashing to limit CPU work on abnormal paths.
+- **Packaging:** `.vscodeignore` excludes common secret filename patterns from the VSIX.
+- **Repo:** [SECURITY.md](SECURITY.md), Dependabot for npm, README security summary.
+
+[1.0.1]: https://github.com/wyvernsystems/auto-color-vscode-extension/releases/tag/v1.0.1
+
 ## [1.0.0] - 2026-04-13
 
 ### Added

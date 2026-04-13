@@ -30,6 +30,12 @@ The extension saves colors through **workspace settings**. That usually creates 
 
 Inside that file it adds a **`workbench.colorCustomizations`** object with the hex colors for this workspace. Anything else in that file is left alone. If you disable Auto Color for the workspace or turn it off globally, it **removes only the keys it added** (and a few legacy keys), not your whole settings file.
 
+## Security
+
+- **No network** — colors are computed locally; nothing is sent to a server.
+- **No trust prompt required** — Auto Color runs without asking you to “trust” the workspace first.
+- **Reporting** — see [SECURITY.md](SECURITY.md).
+
 ## Commands
 
 Open the Command Palette (**Cmd+Shift+P** on Mac, **Ctrl+Shift+P** on Windows/Linux):
@@ -54,4 +60,4 @@ Requires **VS Code 1.85+** (Cursor is compatible). Search the Marketplace for **
 
 Marketplace icon: color wheel from [UXWing](https://uxwing.com/color-wheel-icon/) ([license](https://uxwing.com/license/)), resized to 128×128. Readme screenshots: `images/readme-hero-vscode.png` (Visual Studio Code example, teal) and `images/readme-hero-cursor.png` (Cursor example, purple).
 
-Repository: [wyvernsystems/auto-color-vscode-extension](https://github.com/wyvernsystems/auto-color-vscode-extension) · [MIT](LICENSE)
+Repository: [wyvernsystems/auto-color-vscode-extension](https://github.com/wyvernsystems/auto-color-vscode-extension) · [MIT](LICENSE) · [Security](SECURITY.md)
