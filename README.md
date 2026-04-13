@@ -2,13 +2,9 @@
 
 ### Visual Studio Code example
 
-Teal-tinted workspace (folder **EXAMPLE**; terminal username blacked out). GitHub Copilot chat on the right.
-
 ![Visual Studio Code example — Auto Color, teal tint](images/readme-hero-vscode.png)
 
 ### Cursor example
-
-Purple-tinted workspace (different Auto Color seed). **New Agent** and **Cursor Tab** in the status bar.
 
 ![Cursor example — Auto Color, purple tint](images/readme-hero-cursor.png)
 
