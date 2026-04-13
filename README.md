@@ -1,15 +1,5 @@
 # Auto Color
 
-### Visual Studio Code example
-
-![Visual Studio Code example — Auto Color, teal tint](images/readme-hero-vscode.png)
-
-### Cursor example
-
-![Cursor example — Auto Color, purple tint](images/readme-hero-cursor.png)
-
-**Privacy:** Generic workspace name, no secrets in the tree, terminal prompts partially redacted.
-
 ## What it does
 
 Auto Color picks a **color theme per workspace** and applies it to the window: pastel **title, activity, and status** bars and a matching **tint** on the editor, sidebar, tabs, terminal, and related UI. Your syntax theme still controls most text; this mainly changes **backgrounds** so each project looks distinct.
@@ -58,6 +48,16 @@ Open **Settings** (**Cmd+,** / **Ctrl+,**), search **Auto Color**, or browse **E
 
 Requires **VS Code 1.85+** (Cursor is compatible). Search the Marketplace for **Auto Color** or install from a `.vsix`.
 
-Marketplace icon: color wheel from [UXWing](https://uxwing.com/color-wheel-icon/) ([license](https://uxwing.com/license/)), resized to 128×128. Readme screenshots: `images/readme-hero-vscode.png` (Visual Studio Code example, teal) and `images/readme-hero-cursor.png` (Cursor example, purple).
+Marketplace icon: color wheel from [UXWing](https://uxwing.com/color-wheel-icon/) ([license](https://uxwing.com/license/)), resized to 128×128.
+
+## Examples
+
+### Visual Studio Code example
+
+![Visual Studio Code example — Auto Color, teal tint](images/readme-hero-vscode.png)
+
+### Cursor example
+
+![Cursor example — Auto Color, purple tint](images/readme-hero-cursor.png)
 
 Repository: [wyvernsystems/auto-color-vscode-extension](https://github.com/wyvernsystems/auto-color-vscode-extension) · [MIT](LICENSE) · [Security](SECURITY.md)
