@@ -83,26 +83,38 @@
           "type": "boolean",
           "default": true,
           "scope": "application",
-          "description": "Master switch. When false, Auto Color does not apply colors in any window."
+          "order": 1,
+          "markdownDescription": "Same as **Auto Color: Enable (all windows)** / **Disable (all windows)**. When off, no window gets Auto Color until you turn it on again.",
+          "description": "Global on/off for Auto Color in every window. Same as Enable/Disable (all windows) commands."
+        },
+        "auto-color.scope": {
+          "type": "string",
+          "enum": ["all", "headFooter"],
+          "enumDescriptions": [
+            "Title, activity, and status bars plus the tinted editor, sidebar, tabs, panel, and related UI.",
+            "Only the title and status bars. Activity bar and the rest of the workbench follow your color theme."
+          ],
+          "default": "all",
+          "scope": "window",
+          "order": 2,
+          "markdownDescription": "Same as **Auto Color: Set color scope**. Use the Workspace tab to set this per folder.",
+          "description": "Which parts of the UI Auto Color paints. Same as the Set color scope command."
         },
         "auto-color.workspaceDisabled": {
           "type": "boolean",
           "default": false,
           "scope": "window",
-          "description": "When true, Auto Color is off for this workspace only (extension color keys are cleared)."
-        },
-        "auto-color.scope": {
-          "type": "string",
-          "enum": ["all", "headFooter"],
-          "default": "all",
-          "scope": "window",
-          "description": "all = title, activity, status + workbench tint. headFooter = title + status only; activity bar and surfaces use the theme."
+          "order": 3,
+          "markdownDescription": "Same as **Auto Color: Disable for this workspace** / **Enable for this workspace**. When enabled, this folder’s workspace skips Auto Color even if the global switch is on.",
+          "description": "Turn Auto Color off for this workspace only. Same as per-workspace enable/disable commands."
         },
         "auto-color.randomSeed": {
           "type": "number",
           "default": 0,
           "scope": "window",
-          "description": "Random seed for the workspace color. Set via Randomize; 0 or unset = derive from folder path."
+          "order": 4,
+          "markdownDescription": "Non-zero locks the palette to a random choice (set by **Randomize color**). Use `0` or clear for folder-path colors (**Reset to default color**).",
+          "description": "Random palette seed; 0 means derive from folder path. Set by Randomize / Reset commands."
         }
       }
     }

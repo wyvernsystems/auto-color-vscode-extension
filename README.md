@@ -36,8 +36,14 @@ Open the Command Palette (**Cmd+Shift+P** on Mac, **Ctrl+Shift+P** on Windows/Li
 | **Auto Color: Randomize color** | Picks a new random palette and saves it in workspace settings so it stays after reload. |
 | **Auto Color: Reset to default color** | Removes the random override so the color is derived from the workspace folder path again. |
 
+## Settings UI
+
+Open **Settings** (**Cmd+,** / **Ctrl+,**), search **Auto Color**, or browse **Extensions → Auto Color**. You get the same options as the commands: **global on/off**, **color scope** (dropdown with short descriptions), **disable for this workspace**, and **random seed**. Use the **Workspace** tab when you want scope or per-workspace options for the current folder only.
+
 ## Install
 
 Requires **VS Code 1.85+** (Cursor is compatible). Search the Marketplace for **Auto Color** or install from a `.vsix`.
+
+Marketplace icon: color wheel from [UXWing](https://uxwing.com/color-wheel-icon/) ([license](https://uxwing.com/license/)), resized to 128×128. Hero image in the readme is separate project artwork under `images/`.
 
 Repository: [wyvernsystems/auto-color-vscode-extension](https://github.com/wyvernsystems/auto-color-vscode-extension) · [MIT](LICENSE)
