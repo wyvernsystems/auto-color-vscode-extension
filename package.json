@@ -4,7 +4,7 @@
   "description": "Unique pastel title bar, activity bar, and status bar colors per workspace—golden-ratio palette, zero setup.",
   "version": "0.1.0",
   "license": "MIT",
-  "publisher": "ronpicard",
+  "publisher": "WyvernSystemsLLC",
   "repository": {
     "type": "git",
     "url": "https://github.com/wyvernsystems/auto-color-workspace-vscode-extension.git"

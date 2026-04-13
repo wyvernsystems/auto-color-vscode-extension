@@ -1,95 +1,73 @@
 # AutoColorWorkspace
 
-Give every VS Code workspace its own **calm, readable chrome**: the extension hashes the folder path, builds a **golden-ratio pastel** (hue via 360°/φ², blended saturation/lightness), and writes `workbench.colorCustomizations` to **`.vscode/settings.json`** so colors survive restarts.
+AutoColorWorkspace gives each project a distinct, readable VS Code chrome color so you can tell workspaces apart at a glance.
 
-Works in **VS Code** and **Cursor**.
+It works in both **VS Code** and **Cursor**.
+
+## What it does
+
+- Picks a deterministic pastel color from your workspace folder path
+- Applies colors to the title bar, activity bar, and status bar
+- Writes to your workspace settings (`.vscode/settings.json`) so colors persist across restarts
+- Merges safely with your existing `workbench.colorCustomizations`
 
 ## Install
 
-**From the Marketplace (after you publish):** search for **AutoColorWorkspace** or open  
-[AutoColorWorkspace on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=ronpicard.autocolor-workspace)  
-*(Link works once the extension is published under publisher `ronpicard`.)*
+### Marketplace
 
-**From a VSIX:** download or build `autocolor-workspace-0.1.0.vsix`, then in VS Code: **Extensions → … → Install from VSIX…**.
+Search for **AutoColorWorkspace** in Extensions, or use:
+[AutoColorWorkspace on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=WyvernSystemsLLC.autocolor-workspace)
+
+### From a VSIX file
+
+1. Download or build a `.vsix` file (for example `autocolor-workspace-0.1.0.vsix`)
+2. In VS Code: **Extensions → ... → Install from VSIX...**
 
 ## Requirements
 
-- VS Code **1.85.0** or newer (see `engines.vscode` in `package.json`).
+- VS Code **1.85.0** or newer
 
-## Behavior
+## Usage
 
-- Runs on window startup and when workspace folders change—no command required for the default flow.
-- Uses the **first** workspace root path for the hash (multi-root: same behavior as before).
-- Command Palette (**⌘⇧P** / **Ctrl+Shift+P**) exposes enable/disable/reset commands (see below).
+- Runs automatically on startup and when workspace folders change
+- In multi-root workspaces, color is based on the first workspace root
+- Use Command Palette (**Cmd+Shift+P** / **Ctrl+Shift+P**) for manual controls
 
 ## Commands
 
 | Command | Effect |
 |--------|--------|
-| **AutoColorWorkspace: Enable (all windows)** | Master switch on; re-applies chrome in this workspace if a folder is open. |
-| **AutoColorWorkspace: Disable (all windows)** | Master switch off; clears extension bar keys in **this** workspace. |
-| **AutoColorWorkspace: Enable for this workspace** | Clears workspace-only disable; paints if the master switch is on. |
-| **AutoColorWorkspace: Disable for this workspace** | Workspace-only off; removes extension bar keys here. |
-| **AutoColorWorkspace: Reset colors (this workspace)** | Removes only this extension’s keys; does not change enable flags. |
+| **AutoColorWorkspace: Enable (all windows)** | Turns on global coloring and applies in the current workspace. |
+| **AutoColorWorkspace: Disable (all windows)** | Turns off global coloring and clears this extension's color keys here. |
+| **AutoColorWorkspace: Enable for this workspace** | Re-enables coloring in this workspace if global is on. |
+| **AutoColorWorkspace: Disable for this workspace** | Disables coloring only for this workspace. |
+| **AutoColorWorkspace: Reset colors (this workspace)** | Removes only this extension's color keys from this workspace. |
 
 ## Settings
 
 | ID | Scope | Default | Meaning |
 |----|--------|---------|---------|
-| `autocolor-workspace.enabled` | Application | `true` | Global on/off. |
-| `autocolor-workspace.workspaceDisabled` | Window | `false` | Off for this workspace only. |
+| `autocolor-workspace.enabled` | Application | `true` | Global on/off switch. |
+| `autocolor-workspace.workspaceDisabled` | Window | `false` | Disable only this workspace. |
 
-## Features
+## Build a VSIX for manual upload
 
-- Deterministic color from the workspace folder path  
-- Golden-angle hue spacing and φ-weighted S/L for restrained UI chrome  
-- Contrasting foregrounds for title, activity, and status bars  
-- Merges with existing `workbench.colorCustomizations` (only touches the keys it owns)
-
-## Development
+If you want to upload manually (instead of `vsce publish`), build a package first:
 
 ```bash
 npm install
 npm run compile
+npx vsce package
 ```
 
-Press **F5** in this repo to open an Extension Development Host (see `.vscode/launch.json`).
+This generates `autocolor-workspace-<version>.vsix` in the project root.
 
-### Git: push to [wyvernsystems](https://github.com/wyvernsystems)
+Then upload it in the Marketplace portal:
 
-This repository is configured to use **`origin`** → `git@github.com:wyvernsystems/auto-color-workspace-vscode-extension.git` with a **dedicated SSH key** via local `core.sshCommand` (`~/.ssh/id_ed25519_wyvernsystems`, `IdentitiesOnly=yes`). That keeps pushes on this machine tied to the Wyvern Systems GitHub user instead of your default key.
-
-1. While signed in as **wyvernsystems**, open **Settings → SSH and GPG keys** and add the contents of `~/.ssh/id_ed25519_wyvernsystems.pub` (e.g. `pbcopy < ~/.ssh/id_ed25519_wyvernsystems.pub` on macOS, then paste).
-2. Create the GitHub repository **`auto-color-workspace-vscode-extension`** under [wyvernsystems](https://github.com/wyvernsystems) if it does not exist yet (public, empty—no README/license so the first push is clean).
-3. From this directory: `git push -u origin main`.
-
-For `gh` CLI against that account, add it with `gh auth login -h github.com -w` (second account), then `gh auth switch -u wyvernsystems` when you need org/user actions as Wyvern Systems.
-
-## Maintainer: publish to the Visual Studio Marketplace
-
-1. **Align identity**  
-   - In [Manage publishers](https://marketplace.visualstudio.com/manage), create a publisher and note the **publisher ID**.  
-   - Set `"publisher"` in `package.json` to that exact ID (this repo currently uses `ronpicard` for the Marketplace listing; **change it** if you publish under another publisher).  
-   - Source code for this extension lives at [github.com/wyvernsystems/auto-color-workspace-vscode-extension](https://github.com/wyvernsystems/auto-color-workspace-vscode-extension); `repository`, `bugs`, and `homepage` in `package.json` should stay in sync with that URL.
-
-2. **Personal Access Token**  
-   - In [Azure DevOps](https://dev.azure.com), create a PAT with scope **Marketplace → Manage**.  
-   - Official guide: [Publishing extensions](https://code.visualstudio.com/api/working-with-extensions/publishing-extension).
-
-3. **Ship**  
-   ```bash
-   npm install
-   npm run compile
-   npx vsce login <your-publisher-id>
-   npx vsce publish
-   ```  
-   For updates, bump `"version"` in `package.json` (or use `npx vsce publish patch`), update `CHANGELOG.md`, then `npx vsce publish` again.
-
-4. **Sanity check locally**  
-   ```bash
-   npx vsce package
-   ```  
-   Produces `autocolor-workspace-<version>.vsix` for a test install.
+1. Open [Visual Studio Marketplace Publisher Management](https://marketplace.visualstudio.com/manage)
+2. Select your publisher
+3. Choose **New extension**
+4. Upload the generated `.vsix` file
 
 ## Changelog
 
@@ -98,3 +76,36 @@ See [CHANGELOG.md](CHANGELOG.md).
 ## License
 
 [MIT](LICENSE)
+
+## For Developers
+
+### Local development
+
+```bash
+npm install
+npm run compile
+```
+
+Press **F5** in this repo to launch an Extension Development Host.
+
+### Repository and git notes
+
+- Source repo: [wyvernsystems/auto-color-workspace-vscode-extension](https://github.com/wyvernsystems/auto-color-workspace-vscode-extension)
+- If this machine is configured with a dedicated Wyvern Systems SSH key, pushes from this repo can be tied to that account.
+
+### Marketplace publishing (CLI path)
+
+1. Ensure `publisher` in `package.json` matches your Marketplace publisher ID
+2. Create an Azure DevOps PAT with **Marketplace (Manage)** scope
+3. Log in and publish:
+
+```bash
+npx vsce login <publisher-id>
+npx vsce publish
+```
+
+For a patch release, you can run:
+
+```bash
+npx vsce publish patch
+```
