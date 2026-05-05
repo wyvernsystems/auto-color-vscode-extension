@@ -2,6 +2,12 @@
 
 All notable changes to **Auto Color** will be documented in this file.
 
+## [Unreleased]
+
+### Fixed
+
+- **New window / multi-root:** Do not auto-apply tint when workspace-level `workbench.colorCustomizations` already exists (detected via configuration), or when a multi-root `.code-workspace` keeps colors only in a folder’s `.vscode/settings.json` while workspace `settings` is empty—previously automatic coloring could overwrite existing colors in those cases.
+
 ## [1.0.4] - 2026-04-14
 
 ### Added

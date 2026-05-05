@@ -397,10 +397,56 @@ function settingsObjectHasKeys(settings: unknown): boolean {
   );
 }
 
+function nonEmptyRecord(value: unknown): boolean {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    !Array.isArray(value) &&
+    Object.keys(value as object).length > 0
+  );
+}
+
+/**
+ * Workspace-persisted `workbench.colorCustomizations` (not User/global). When non-empty, automatic
+ * tint must not run so opening a new window does not replace existing bar/theme colors.
+ */
+function hasWorkspaceStoredColorCustomizations(): boolean {
+  const folders = vscode.workspace.workspaceFolders;
+  if (!folders?.length) {
+    return false;
+  }
+
+  const rootInspect = vscode.workspace
+    .getConfiguration("workbench")
+    .inspect<Record<string, unknown>>("colorCustomizations");
+
+  if (nonEmptyRecord(rootInspect?.workspaceValue)) {
+    return true;
+  }
+  if (nonEmptyRecord(rootInspect?.workspaceFolderValue)) {
+    return true;
+  }
+
+  for (const folder of folders) {
+    const ins = vscode.workspace
+      .getConfiguration("workbench", folder.uri)
+      .inspect<Record<string, unknown>>("colorCustomizations");
+    if (nonEmptyRecord(ins?.workspaceFolderValue)) {
+      return true;
+    }
+    if (nonEmptyRecord(ins?.workspaceValue)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 /**
  * True when workspace settings are already persisted (user-owned file).
  * Folder workspace: `.vscode/settings.json` exists.
- * Multi-root: `.code-workspace` JSON has a non-empty `settings` object.
+ * Multi-root: `.code-workspace` JSON has a non-empty `settings` object, **or** any folder has
+ * `.vscode/settings.json` (colors often live only in a folder when workspace-level `settings` is empty).
  * If the workspace file cannot be parsed (e.g. JSON with comments), treat as existing to avoid overwriting.
  */
 async function hasExistingWorkspaceSettingsFile(): Promise<boolean> {
@@ -415,10 +461,22 @@ async function hasExistingWorkspaceSettingsFile(): Promise<boolean> {
       const raw = await vscode.workspace.fs.readFile(workspaceFile);
       const text = new TextDecoder("utf-8").decode(raw);
       const json = JSON.parse(text) as { settings?: unknown };
-      return settingsObjectHasKeys(json.settings);
+      if (settingsObjectHasKeys(json.settings)) {
+        return true;
+      }
     } catch {
       return true;
     }
+    for (const folder of folders) {
+      const settingsUri = vscode.Uri.joinPath(folder.uri, ".vscode", "settings.json");
+      try {
+        await vscode.workspace.fs.stat(settingsUri);
+        return true;
+      } catch {
+        /* try next folder */
+      }
+    }
+    return false;
   }
 
   const settingsUri = vscode.Uri.joinPath(
@@ -445,7 +503,7 @@ function requireFolder(): boolean {
 }
 
 export function activate(context: vscode.ExtensionContext): void {
-  /** When false, startup and auto-color config changes do not write workspace settings (existing file or workspace JSON). Commands still apply. */
+  /** When false, startup and auto-color config changes do not write workspace settings (existing files, workspace JSON, or workspace color customizations). Commands still apply. */
   let allowAutomaticWorkspaceChrome = true;
 
   const refreshAllowAutomaticWorkspaceChrome = async () => {
@@ -453,8 +511,9 @@ export function activate(context: vscode.ExtensionContext): void {
       allowAutomaticWorkspaceChrome = false;
       return;
     }
-    allowAutomaticWorkspaceChrome =
-      !(await hasExistingWorkspaceSettingsFile());
+    const hasSettingsFile = await hasExistingWorkspaceSettingsFile();
+    const hasStoredColors = hasWorkspaceStoredColorCustomizations();
+    allowAutomaticWorkspaceChrome = !hasSettingsFile && !hasStoredColors;
   };
 
   const runAutomaticSyncIfAllowed = async () => {
