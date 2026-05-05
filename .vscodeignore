@@ -11,3 +11,4 @@ src/**
 **/*.pem
 **/*.key
 .github/**
+.cursor/**
